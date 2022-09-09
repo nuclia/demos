@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon"
+        type="image/svg+xml"
+        href="/vite.svg" />
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0" />
+  <title>Vite + Svelte + TS</title>
+  <script src="//unpkg.com/redefine-custom-elements@0.1.2/lib/index.js"></script>
+  <script>
+    // `customElements` here is the patched version due to the redefine-custom-elements script
+    // (it supports multiple calls to `define` for the same element name)
+    // Now we need to patch it to trigger re-rendering when a custom element is redefined
+    const _define = customElements.define;
+    customElements.define = function (name, CustomElement, options) {
+      // we create a wrapper to prefix/unprefix attributes with `data-`
+      // this is needed because Svelte removes all regular attributes when rendering a custom element
+      class CustomElementWrapper extends CustomElement {
+        static get observedAttributes() {
+          return (super.observedAttributes || []).map((attr) => `data-${attr}`);
+        }
+
+        attributeChangedCallback(attrName, oldValue, newValue) {
+          super.attributeChangedCallback(
+            attrName.replace('data-', ''),
+            oldValue,
+            newValue === '' ? true : newValue,
+          );
+        }
+      }
+      // call the original define function passing the wrapper
+      const nativeDef = _define.bind(customElements);
+      nativeDef(name, CustomElementWrapper, options);
+
+      // re-render the impacted elements
+      setTimeout(() => {
+        [...document.querySelectorAll(name)].forEach(el => {
+          const container = document.createElement('div');
+          container.innerHTML = el.outerHTML;
+          const newNode = container.firstElementChild;
+          el.parentNode.replaceChild(newNode, el);
+        });
+      }, 0);
+    };
+  </script>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script type="module"
+          src="/src/main.ts"></script>
+</body>
+
+</html>
