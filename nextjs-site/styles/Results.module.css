@@ -1,0 +1,19 @@
+.container {
+  text-align: initial;
+  line-height: 1;
+  font-size: 1rem;
+}
+.ner dl {
+  margin: 3px 0;
+}
+.ner dd {
+  font-weight: bold;
+  line-height: 1.5em;
+}
+.ner span {
+  font-size: 80%;
+  background-color: lightblue;
+  border-radius: 5px;
+  padding: 3px;
+  margin: 0 3px;
+}
