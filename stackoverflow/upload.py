@@ -13,9 +13,10 @@ from bs4 import BeautifulSoup
 
 client = NucliaDBClient(host="localhost", grpc=8060, http=8080, train=8031)
 
-kb = client.get_kb(slug="stackoverflow")
+KBSLUG = "philosophy"
+kb = client.get_kb(slug=KBSLUG)
 if kb is None:
-    kb = client.create_kb(slug="stackoverflow", title="StackOverflow Questions&Answers about CSS")
+    kb = client.create_kb(slug=KBSLUG, title="StackExchange Philosophy Questions&Answers")
 
 # get HugginFace sentence transformer model
 model = SentenceTransformer("paraphrase-MiniLM-L6-v2")
@@ -36,10 +37,10 @@ def upload_question(title, text):
 
     # Now add index information
     tree = BeautifulSoup(text, features="html.parser")
-    good_text = tree.get_text().replace("\n", " \n ")
+    good_text = tree.get_text(" ").replace("\n", " \n ")
     resource.add_text("body", FieldType.TEXT, good_text)
 
-    embeddings = model.encode([title, text])
+    embeddings = model.encode([title])
 
     # Title
     vector = Vector(
@@ -56,27 +57,33 @@ def upload_question(title, text):
         [vector],
     )
 
-    # Body
-    vector = Vector(
-        start=0,
-        end=len(text),
-        start_paragraph=0,
-        end_paragraph=len(text),
-    )
-    vector.vector.extend(embeddings[1])
+    # Sentences
+    vectors = []
+    index = 0
+    for child in tree.contents: # get the root children (mostly paragraphs, but they can be ul or h1, h2, etc)
+        sentence = child.get_text(" ", strip=True)
+        vector = Vector(
+            start=index,
+            end=index + len(sentence),
+            start_paragraph=index,
+            end_paragraph=index + len(sentence),
+        )
+        embeddings = model.encode([sentence])
+        vector.vector.extend(embeddings[0])
+        vectors.append(vector)
 
     resource.add_vectors(
         "body",
         FieldType.TEXT,
-        [vector],
+        vectors,
     )
 
     resource.sync_commit()
 
 def get_question_text(data):
-    return f"{data[1]}<br\><br\>{data[2]}"
+    return "<br\><br\>".join(data[1:])
 
-with open('./downloads/results.csv', "r") as reader:
+with open('./downloads/results.csv', "r", encoding="utf-8") as reader:
     csvFile = csv.reader(reader)
     count = 0
     for line in csvFile:

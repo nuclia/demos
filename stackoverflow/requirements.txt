@@ -3,3 +3,4 @@ nucliadb
 nucliadb-client
 requests
 bs4
+fastapi

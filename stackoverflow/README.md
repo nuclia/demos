@@ -21,15 +21,13 @@ pip install -r requirements.txt
 
 ## Get StackOverflow data
 
+Go to Philosophy StackExchange and download the data from [here](https://data.stackexchange.com/philosophy/queries).
+
 ```sql
--- // the __x__ markers allow to delimit HTML contents as they contains newline characters that break the CSV format
-SELECT q.Title, '__1__', q.Body as question, '__2__', a.Body as answer, '__3__'
-FROM Posts a, Posts q, PostTags pt, Tags t
-WHERE a.ParentId=q.Id
-AND q.Id=pt.PostId
-AND t.id = pt.TagId
-AND t.TagName='css'
-ORDER BY a.score DESC
+SELECT q.Title, '__1__', q.Body, '__2__', (SELECT a.Body FROM Posts a WHERE a.ParentId=q.id FOR XML PATH('')
+), '__3__'
+FROM Posts q
+WHERE PostTypeId=1
 ```
 
 Then convert it to make a proper CSV file:
@@ -44,6 +42,22 @@ python format_csv.py
 python upload.py
 ```
 
-## Play with it
+## Default frontend
 
-http://localhost:8080/widget
+http://localhost:8080/widget/
+
+## Custom frontend
+
+### Run the proxy
+
+```bash
+cd proxy
+uvicorn main:app
+```
+
+### Run local frontend
+
+```bash
+
+
+```
