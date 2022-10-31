@@ -37,8 +37,10 @@ def upload_question(title, text):
 
     # Now add index information
     tree = BeautifulSoup(text, features="html.parser")
-    good_text = tree.get_text(" ").replace("\n", " \n ")
-    resource.add_text("body", FieldType.TEXT, good_text)
+    sentences = [child.get_text(" ", strip=True) for child in tree.contents]  # get the root children (mostly paragraphs, but they can be ul or h1, h2, etc)
+    sentences = [sentence for sentence in sentences if len(sentence) > 0]
+    pure_text = " ".join(sentences)
+    resource.add_text("body", FieldType.TEXT, pure_text)
 
     embeddings = model.encode([title])
 
@@ -60,14 +62,14 @@ def upload_question(title, text):
     # Sentences
     vectors = []
     index = 0
-    for child in tree.contents: # get the root children (mostly paragraphs, but they can be ul or h1, h2, etc)
-        sentence = child.get_text(" ", strip=True)
+    for sentence in sentences:
         vector = Vector(
             start=index,
             end=index + len(sentence),
-            start_paragraph=index,
-            end_paragraph=index + len(sentence),
+            start_paragraph=0,
+            end_paragraph=len(pure_text),
         )
+        index += len(sentence) + 1
         embeddings = model.encode([sentence])
         vector.vector.extend(embeddings[0])
         vectors.append(vector)
@@ -81,7 +83,7 @@ def upload_question(title, text):
     resource.sync_commit()
 
 def get_question_text(data):
-    return "<br\><br\>".join(data[1:])
+    return "<br/><br/>".join(data[1:])
 
 with open('./downloads/results.csv', "r", encoding="utf-8") as reader:
     csvFile = csv.reader(reader)
