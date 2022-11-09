@@ -46,18 +46,18 @@ python upload.py
 
 http://localhost:8080/widget/
 
-## Custom frontend
-
 ### Run the proxy
+
+The proxy will extract the `query` from any `/search` request, in order to convert it to a vector and pass it to NucliaDB.
 
 ```bash
 cd proxy
 uvicorn main:app
 ```
 
-### Run local frontend
+### Run demo frontend
 
 ```bash
-
-
+cd dist/search-widget-demo
+python3 -m http.server 4200
 ```

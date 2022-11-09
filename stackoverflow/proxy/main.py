@@ -10,6 +10,7 @@ import json
 app = FastAPI()
 client = httpx.AsyncClient(base_url="http://localhost:8080/")
 model = SentenceTransformer("paraphrase-MiniLM-L6-v2")
+# model = SentenceTransformer("paraphrase-multilingual-MiniLM-L12-v2")
 
 async def _reverse_proxy(request: Request):
     method = request.method
