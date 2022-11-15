@@ -58,6 +58,8 @@ uvicorn main:app
 ### Run demo frontend
 
 ```bash
-cd dist/search-widget-demo
-python3 -m http.server 4200
+cd dist/local-demo
+python3 -m http.server 4201
+cd dist/ploneconf
+python3 -m http.server 4202
 ```
