@@ -9,7 +9,7 @@ import json
 
 app = FastAPI()
 client = httpx.AsyncClient(base_url="http://localhost:8080/")
-model = SentenceTransformer("paraphrase-MiniLM-L6-v2")
+model = SentenceTransformer("all-MiniLM-L6-v2")
 # model = SentenceTransformer("paraphrase-multilingual-MiniLM-L12-v2")
 
 async def _reverse_proxy(request: Request):
@@ -24,6 +24,7 @@ async def _reverse_proxy(request: Request):
             vector = model.encode([search_query])[0]
             params['vector'] = vector.tolist()
             params['min_score'] = 0.7
+            params['vectorset'] = "all-MiniLM-L6-v2"
             content = json.dumps(params).encode("utf-8")
             headers[b'content-length'] = f"{len(content)}"
     url = httpx.URL(path=request.url.path,

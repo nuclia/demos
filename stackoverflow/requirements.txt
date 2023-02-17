@@ -1,6 +1,8 @@
 sentence_transformers
 nucliadb
 nucliadb-client
+nucliadb-dataset
+nucliadb-sdk
 requests
 bs4
 fastapi
