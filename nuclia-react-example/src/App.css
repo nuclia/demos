@@ -1,0 +1,86 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.App {
+  --header-height: 3rem;
+  --color-dark-stronger: #282c34;
+  --color-light-stronger: #fff;
+  --color-primary-regular: #ff0066;
+  --color-primary-lighter: #ffcce0;
+  --color-neutral-regular: hsl(0, 0%, 44%);
+  --color-neutral-light: hsl(0, 0%, 77%);
+  --color-neutral-lighter: hsl(0, 0%, 90%);
+  --color-neutral-lightest: hsl(240, 7%, 97%);
+  --transition-superfast: 0.16s ease-in-out;
+  --focus-shadow: inset 0 0 0 0.25rem var(--color-primary-lighter);
+
+  height: 100dvh;
+}
+
+.App-logo {
+  height: 2rem;
+  pointer-events: none;
+  position: absolute;
+  left: 1rem;
+}
+
+.App-header {
+  align-items: center;
+  background-color: var(--color-dark-stronger);
+  color: white;
+  display: flex;
+  height: var(--header-height);
+  padding: 0.5rem 1rem;
+  position: sticky;
+  top: 0;
+  width: 100vw;
+}
+
+.App-header h1 {
+  flex: 1 0 auto;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.App-body {
+  max-height: calc(100dvh - var(--header-height));
+  overflow: auto;
+}
+
+.search-bar-container {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.search-results-container {
+}
+
+@media (max-width: 599px) {
+  .App-logo:not(.small) {
+    display: none;
+  }
+  .App-body {
+    padding: 1rem;
+  }
+  .search-bar-container {
+    margin-bottom: 1rem;
+  }
+}
+@media (min-width: 600px) {
+  .App-header h1 {
+    font-size: 1.5rem;
+  }
+  .App-logo.small {
+    display: none;
+  }
+  .App-body {
+    padding: 3rem 2rem;
+  }
+  .search-bar-container {
+    margin-bottom: 3rem;
+  }
+}
