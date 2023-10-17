@@ -1,0 +1,34 @@
+h3 {
+  margin: 0 0 0.25rem;
+  transition: color var(--transition-superfast);
+}
+
+a {
+  color: var(--color-dark-stronger);
+  text-decoration: none;
+}
+
+.paragraph-container {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.paragraph {
+  padding: 0.25rem 0;
+}
+
+.ResultRow {
+  border-radius: 0.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: background-color var(--transition-superfast);
+}
+
+.ResultRow:hover {
+  background-color: var(--color-neutral-lightest);
+}
+
+.ResultRow:hover h3 {
+  color: var(--color-primary-regular);
+}

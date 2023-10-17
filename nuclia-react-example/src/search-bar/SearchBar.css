@@ -1,0 +1,50 @@
+.SearchBar-container {
+  border: 1px solid var(--color-dark-stronger);
+  display: flex;
+  height: 3rem;
+  width: 28rem;
+}
+.SearchBar-container:focus-within {
+  border-color: var(--color-primary-regular);
+}
+
+.SearchBar-glyph {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  width: 3rem;
+}
+.SearchBar-glyph img {
+  height: 1.5rem;
+  width: 1.5rem;
+}
+.SearchBar-container input {
+  border: none;
+  flex: 1 0 auto;
+  font-size: 1rem;
+}
+.SearchBar-container input:focus {
+  outline: none;
+}
+
+.clear-button {
+  align-items: center;
+  background: var(--color-light-stronger);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem;
+  transition: background-color var(--transition-superfast);
+}
+.clear-button:hover {
+  background-color: var(--color-neutral-light);
+}
+.clear-button:active {
+  background-color: var(--color-neutral-regular);
+}
+.clear-button:focus-visible {
+  box-shadow: var(--focus-shadow);
+  outline: 0;
+}
