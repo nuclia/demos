@@ -2,12 +2,7 @@ import React, { useState } from 'react';
 import logo from './assets/logo.svg';
 import logoSmall from './assets/logo-symbol.svg';
 import './App.css';
-import {
-  IErrorResponse,
-  Nuclia,
-  ResourceProperties,
-  Search,
-} from '@nuclia/core';
+import { Chat, IErrorResponse, Nuclia, ResourceProperties } from '@nuclia/core';
 import { SearchBar } from './search-bar/SearchBar';
 import { SearchResults } from './search-results/SearchResults';
 
@@ -17,28 +12,27 @@ function App() {
     zone: 'europe-1',
     knowledgeBox: 'df8b4c24-2807-4888-ad6c-ae97357a638b',
   });
-  const [results, setResults] = useState<
-    Search.FindResults | IErrorResponse | null
-  >(null);
-  let searchTimeout: NodeJS.Timeout;
+  const [results, setResults] = useState<Chat.Answer | IErrorResponse | null>(
+    null,
+  );
 
   function search(query: string) {
-    clearTimeout(searchTimeout);
     if (!query) {
       return setResults(null);
     }
-    // debounce while typing query
-    searchTimeout = setTimeout(() => {
-      nuclia.asyncKnowledgeBox
-        .find(query, [Search.Features.PARAGRAPH, Search.Features.VECTOR], {
-          show: [
-            ResourceProperties.BASIC,
-            ResourceProperties.VALUES,
-            ResourceProperties.ORIGIN,
-          ],
-        })
-        .then((results) => setResults(results));
-    }, 300);
+    nuclia.asyncKnowledgeBox.chat(
+      query,
+      undefined,
+      [Chat.Features.PARAGRAPHS],
+      {
+        show: [
+          ResourceProperties.BASIC,
+          ResourceProperties.VALUES,
+          ResourceProperties.ORIGIN,
+        ],
+      },
+      (answer) => setResults(answer),
+    );
   }
 
   return (

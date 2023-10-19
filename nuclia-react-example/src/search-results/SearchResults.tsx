@@ -1,4 +1,5 @@
 import {
+  Chat,
   FIELD_TYPE,
   FieldId,
   getDataKeyFromFieldType,
@@ -16,24 +17,27 @@ import { ResultRow } from './ResultRow';
 export function SearchResults({
   results,
 }: {
-  results: Search.FindResults | IErrorResponse | null;
+  results: Chat.Answer | IErrorResponse | null;
 }) {
   let content;
   if (results?.type === 'error') {
     content = (
       <div className="error">Oops! An error occurred while searching…</div>
     );
-  } else if (results?.type === 'findResults') {
+  } else if (results?.type === 'answer') {
     content = (
-      <ol>
-        {getSortedResults(Object.values(results.resources || {})).map(
-          (resource) => (
+      <>
+        <div className="answer-container">{results.text || '…'}</div>
+        <ol>
+          {getSortedResults(
+            Object.values(results.sources?.resources || {}),
+          ).map((resource) => (
             <li key={resource.id}>
               <ResultRow resource={resource} />
             </li>
-          ),
-        )}
-      </ol>
+          ))}
+        </ol>
+      </>
     );
   }
   return <div className="SearchResults-container">{content}</div>;
