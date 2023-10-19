@@ -4,7 +4,7 @@ Demo showcasing a simple application allowing to search information in [Nuclia d
 
 In the [Knowledge Box](https://docs.stashify.cloud/docs/docs/getting-started/concepts#knowledge-box) used in this demo,
 each resource contains a text field corresponding to a page of our [documentation website](https://docs.stashify.cloud/docs/)
-and the corresponding URL is stored in resource’s `origin` metadata.
+and the corresponding URL is stored in the resource’s `origin` metadata.
 
 This application was built using [React](https://react.dev/) and [@nuclia/core](https://www.npmjs.com/package/@nuclia/core),
 and the project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
