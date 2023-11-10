@@ -15,5 +15,5 @@ nuas.default(nua)
 
 nuclia_agent = sdk.NucliaAgent()
 
-agent = nuclia_agent.generate_agent("Toronto")
+agent = nuclia_agent.generate_agent("Toronto", "city guide")
 print(agent.ask("Tell me about the parks"))
