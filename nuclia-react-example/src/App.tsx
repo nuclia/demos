@@ -23,7 +23,7 @@ function App() {
     nuclia.asyncKnowledgeBox.chat(
       query,
       undefined,
-      [Chat.Features.PARAGRAPHS],
+      [Chat.Features.PARAGRAPHS, Chat.Features.VECTORS],
       {
         show: [
           ResourceProperties.BASIC,
