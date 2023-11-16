@@ -21,7 +21,7 @@ docker run -it --rm -v "$PWD/nginx.conf:/etc/nginx/conf.d/default.conf" -p 8000:
 
 ## Widget
 
-You can let the Nucli widget use your proxy by setting the `proxy` option and indicating the URL of your proxy:
+You can let the Nuclia widget use your proxy by setting the `proxy` option and indicating the URL of your proxy:
 
 ```html
 <nuclia-search-bar
