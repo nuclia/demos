@@ -16,13 +16,9 @@ export default function Home() {
 
         <div className={styles.description}>
           <h2>Nuclia search widget</h2>
-          <script src="https://cdn.nuclia.cloud/nuclia-widget.umd.js"></script>
-          <nuclia-search
-            knowledgebox="<YOUR-KB-ID>"
-            zone="europe-1"
-            widgetid="nextjs-search-widget"
-            type="form"
-          ></nuclia-search>
+          <script src="https://cdn.nuclia.cloud/nuclia-video-widget.umd.js"></script>
+          <nuclia-search-bar knowledgebox="YOUR_KB_ID" zone="europe-1" features="answers"></nuclia-search-bar>
+          <nuclia-search-results></nuclia-search-results>
         </div>
 
         <div className={styles.description}>
