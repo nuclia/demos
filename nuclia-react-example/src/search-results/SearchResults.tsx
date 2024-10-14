@@ -1,5 +1,5 @@
 import {
-  Chat,
+  Ask,
   FIELD_TYPE,
   FieldId,
   getDataKeyFromFieldType,
@@ -17,7 +17,7 @@ import { ResultRow } from './ResultRow';
 export function SearchResults({
   results,
 }: {
-  results: Chat.Answer | IErrorResponse | null;
+  results: Ask.Answer | IErrorResponse | null;
 }) {
   let content;
   if (results?.type === 'error') {
